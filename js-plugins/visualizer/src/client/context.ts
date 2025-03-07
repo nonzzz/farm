@@ -30,7 +30,11 @@ export function setupTheme(theme: Theme) {
     'class',
     stylex.props(isDark ? darkTheme : lightTheme).className
   );
-  localStorage.setItem(CONSTANTS.theme, theme);
+  document.documentElement.setAttribute(
+    'data-theme',
+    isDark ? 'dark' : 'light'
+  );
+  localStorage.setItem(CONSTANTS.theme, isDark ? 'dark' : 'light');
 }
 
 const [ApplicationProvider, useApplicationContext, useSetApplicationContext] =

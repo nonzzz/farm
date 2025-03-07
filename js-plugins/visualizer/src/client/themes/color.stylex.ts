@@ -40,7 +40,8 @@ export const lightPrimitiveThemes = {
   purple: '#f81ce5',
   alert: '#ff0080',
   magenta: '#eb367f',
-  link: '#0070f3'
+  link: '#0070f3',
+  secondaryText: '#333'
 };
 
 export const darkPrimitiveThemes = {
@@ -81,7 +82,8 @@ export const darkPrimitiveThemes = {
   purple: '#f81ce5',
   alert: '#ff0080',
   magenta: '#eb367f',
-  link: '#3291ff'
+  link: '#3291ff',
+  secondaryText: '#888'
 };
 
 export const colors = defineVars({
@@ -236,6 +238,10 @@ export const colors = defineVars({
   link: {
     default: lightPrimitiveThemes.link,
     [preferDarkQuery]: darkPrimitiveThemes.link
+  },
+  secondaryText: {
+    default: lightPrimitiveThemes.secondaryText,
+    [preferDarkQuery]: darkPrimitiveThemes.secondaryText
   }
 });
 

@@ -1,12 +1,10 @@
-import { useEffect } from 'react';
-import { apis } from '../../shared';
+import { ModuleList } from './module-list';
 
 export function Inspect() {
   // temporary resolution just for check ui render.
-  useEffect(() => {
-    apis.getStats().then((res) => {
-      console.log(res);
-    });
-  }, []);
-  return <div>Inspect</div>;
+  return (
+    <div stylex={{ height: 'calc(100vh - 64px)', overflowY: 'auto' }}>
+      <ModuleList />
+    </div>
+  );
 }

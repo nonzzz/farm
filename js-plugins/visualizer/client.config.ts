@@ -5,6 +5,7 @@ import postCSSPlugin from '@farmfe/js-plugin-postcss';
 import stylexExtendBabelPlugin from '@stylex-extend/babel-plugin';
 import stylexBabelPlugin from '@stylexjs/babel-plugin';
 // import Pages from 'vite-plugin-pages';
+// import Icons from 'unplugin-icons/vite';
 import { visualizer } from './src/server';
 
 const defaultWd = process.cwd();
@@ -72,7 +73,14 @@ function stylex() {
 
 export default defineConfig({
   root: path.join(defaultWd, './src/client'),
-  plugins: [stylex(), '@farmfe/plugin-react', postCSSPlugin(), visualizer()]
+  plugins: [stylex(), '@farmfe/plugin-react', postCSSPlugin(), visualizer()],
+  vitePlugins: [
+    // Icons({
+    //   compiler: 'jsx',
+    //   jsx: 'react',
+    //   autoInstall: true
+    // })
+  ]
   // vitePlugins: [
   //   Pages({
   //     resolver: 'react',

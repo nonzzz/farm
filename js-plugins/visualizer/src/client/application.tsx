@@ -17,7 +17,8 @@ function Content() {
     <div
       id='container'
       stylex={{
-        height: 'calc(100vh - 64px)'
+        height: 'calc(100vh - 64px)',
+        overflow: 'hidden'
       }}
     >
       {controlMode === 'inspect' ? <Inspect /> : <Analysis />}
