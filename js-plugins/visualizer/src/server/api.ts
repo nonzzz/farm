@@ -3,16 +3,18 @@ import { createServer } from 'vite-bundle-analyzer';
 import type { Middleware } from 'vite-bundle-analyzer';
 import {
   VisualizerModule,
-  evaludateModuleGraph,
-  evaludatePluginLifecycle
+  evaluateModuleGraph,
+  evaluatePluginLifecycle
 } from './analyze-module';
+import { PluginLifecycleAnalysis } from './plugin-lifecycle';
 
 export function createInternalServices(mod: VisualizerModule) {
   const server = createServer();
+  const lifecycleAnalysis = new PluginLifecycleAnalysis();
 
   const middlewares: Record<string, Middleware> = {
     resouce: (c, next) => {
-      const analysisModule = evaludateModuleGraph(mod.c, mod.workspaceRoot);
+      const analysisModule = evaluateModuleGraph(mod.c, mod.workspaceRoot);
       c.res.writeHead(200, {
         'Content-Type': 'json/application',
         'Cache-Control': 'no-cache'
@@ -21,13 +23,38 @@ export function createInternalServices(mod: VisualizerModule) {
       next();
     },
     modules: (c, next) => {
+      lifecycleAnalysis.setupCompiler(mod.c);
+      const url = new URL(c.req.url || '', 'http://localhost');
+      const page = parseInt(url.searchParams.get('page') || '0', 10);
+      lifecycleAnalysis.flushCurrentOffset(page);
+      const modules = lifecycleAnalysis.getModulesList();
+      c.res.writeHead(200, {
+        'Content-Type': 'json/application',
+        'Cache-Control': 'no-cache'
+      });
+      c.res.end(
+        JSON.stringify(
+          {
+            data: modules,
+            page,
+            pageSize: lifecycleAnalysis.step,
+            total: Math.floor(
+              lifecycleAnalysis.inspectModuleIds.size / lifecycleAnalysis.step
+            )
+          },
+          null,
+          2
+        )
+      );
       next();
     },
     env_info: (c, next) => {
       next();
     },
     stats: (c, next) => {
-      const stats = evaludatePluginLifecycle(mod.c, false);
+      // lifecycleAnalysis.setupCompiler(mod.c);
+      // lifecycleAnalysis.getModulesList();
+      const stats = evaluatePluginLifecycle(mod.c, false);
       c.res.writeHead(200, {
         'Content-Type': 'json/application',
         'Cache-Control': 'no-cache'

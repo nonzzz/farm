@@ -32,7 +32,7 @@ export function useVirtualList<T>(
 
   const visibleCount = Math.ceil(clientHeight / itemHeight);
   const totalHeight = list.length * itemHeight;
-  console.log(list.length);
+
   const start = Math.max(0, Math.floor(scrollTop / itemHeight) - overscan);
   const end = Math.min(list.length, start + visibleCount + 2 * overscan);
 

@@ -99,14 +99,21 @@ export function transformResourceMapIntoSerializedMod(
   return result;
 }
 
-export function evaludatePluginLifecycle(c: Compiler, dev: boolean) {
+export function evaluatePluginLifecycle(c: Compiler, dev: boolean) {
   const stats = JSON.parse(c.stats()) as StatsMetadata;
+  // console.log(stats.hmrCompilationFlowStats);
+  // if (stats.hmrCompilationFlowStats.length) {
+  //   for (const stat of stats.hmrCompilationFlowStats) {
+  //     console.log(stat.moduleGraphStats);
+  //   }
+  //   // console.log(stats.hmrCompilationFlowStats.moduleGraphStats);
+  // }
   return dev
     ? stats.hmrCompilationFlowStats
     : stats.initialCompilationFlowStats;
 }
 
-export function evaludateModuleGraph(c: Compiler, workspaceRoot: string) {
+export function evaluateModuleGraph(c: Compiler, workspaceRoot: string) {
   const serializedMod = transformResourceMapIntoSerializedMod(c.resourcesMap());
   const result: Array<AnalysisModule> = [];
   for (const mod of serializedMod) {
@@ -227,8 +234,8 @@ export class VisualizerModule {
     if (!this.c) {
       throw new Error(`[@farmfe/plugin-visualizer]: Compiler isn't setup.`);
     }
-    evaludatePluginLifecycle(this.c, false);
-    evaludateModuleGraph(this.c, this.workspaceRoot);
+    evaluatePluginLifecycle(this.c, false);
+    evaluateModuleGraph(this.c, this.workspaceRoot);
   }
 }
 

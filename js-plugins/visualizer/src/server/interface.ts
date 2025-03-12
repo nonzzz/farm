@@ -69,7 +69,7 @@ export interface CompilationFlowStats {
 
 export interface StatsMetadata {
   initialCompilationFlowStats: CompilationFlowStats;
-  hmrCompilationFlowStats: CompilationFlowStats;
+  hmrCompilationFlowStats: Array<CompilationFlowStats>;
 }
 
 export interface AnalysisModule {
@@ -78,4 +78,12 @@ export interface AnalysisModule {
   parsedSize: number;
   parsed: Array<GroupNode>;
   stats: Array<GroupNode>;
+}
+
+export interface InspectModuleInfo {
+  id: string;
+  deps: string[];
+  plugins: HookStats[];
+  totalTime: number;
+  invokeCount: number;
 }

@@ -18,7 +18,7 @@ function ModuleItem(props: ModuleItemProps) {
         padding: '6px 12px',
         textAlign: 'left',
         fontSize: '16px',
-        height: '60px',
+        height: '45px',
         boxSizing: 'border-box',
         width: '100%',
         cursor: 'pointer',
@@ -45,6 +45,10 @@ export function ModuleList() {
   useEffect(() => {
     apis.getStats().then((res) => {
       setStats(res as CompilationFlowStats);
+      console.log(res);
+    });
+    apis.getModules().then((res) => {
+      console.log(res);
     });
   }, []);
 
@@ -56,7 +60,7 @@ export function ModuleList() {
   const { containerProps, wrapperProps, virtualItems } = useVirtualList(
     modules,
     {
-      itemHeight: 60,
+      itemHeight: 50,
       overscan: 5
     }
   );
